@@ -10,6 +10,7 @@
 
 const autoprefixer = require('autoprefixer');
 const path = require('path');
+const fs = require('fs');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -37,6 +38,8 @@ const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 const publicUrl = publicPath.slice(0, -1);
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
+const appDirectory = fs.realpathSync(process.cwd());
+const extendedWebpackConfigPath = path.join(appDirectory, 'config', 'webpack.config.prod.js');
 
 // Assert this just to be safe.
 // Development builds of React are slow and not intended for production.
@@ -59,7 +62,7 @@ const extractTextPluginOptions = shouldUseRelativeAssetPaths
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
-module.exports = {
+const predefinedConfig = {
   // Don't attempt to continue if there are any errors.
   bail: true,
   // We generate sourcemaps in production. This is slow but gives good results.
@@ -385,3 +388,11 @@ module.exports = {
     child_process: 'empty',
   },
 };
+let finalConfig;
+if (fs.existsSync(extendedWebpackConfigPath)) {
+  const configExtend = require(extendedWebpackConfigPath);
+  finalConfig = configExtend(predefinedConfig);
+} else {
+  finalConfig = predefinedConfig;
+}
+module.exports = finalConfig;

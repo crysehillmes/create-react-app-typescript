@@ -1,14 +1,14 @@
 {
-  "name": "react-scripts-ts",
-  "version": "2.14.0",
+  "name": "cra-ts-ext",
+  "version": "2.14.1",
   "description": "Configuration and scripts for Create React App.",
-  "repository": "wmonk/create-react-app",
+  "repository": "crysehillmes/create-react-app",
   "license": "BSD-3-Clause",
   "engines": {
     "node": ">=6"
   },
   "bugs": {
-    "url": "https://github.com/wmonk/create-react-app/issues"
+    "url": "https://github.com/crysehillmes/create-react-app/issues"
   },
   "files": [
     "bin",

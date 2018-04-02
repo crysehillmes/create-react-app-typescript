@@ -10,6 +10,7 @@
 
 const autoprefixer = require('autoprefixer');
 const path = require('path');
+const fs = require('fs');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
@@ -30,11 +31,13 @@ const publicPath = '/';
 const publicUrl = '';
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
+const appDirectory = fs.realpathSync(process.cwd());
+const extendedWebpackConfigPath = path.join(appDirectory, 'config', 'webpack.config.dev.js');
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
 // The production configuration is different and lives in a separate file.
-module.exports = {
+const predefinedConfig = {
   // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
   // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
   devtool: 'cheap-module-source-map',
@@ -299,3 +302,11 @@ module.exports = {
     hints: false,
   },
 };
+let finalConfig;
+if (fs.existsSync(extendedWebpackConfigPath)) {
+  const configExtend = require(extendedWebpackConfigPath);
+  finalConfig = configExtend(predefinedConfig);
+} else {
+  finalConfig = predefinedConfig;
+}
+module.exports = finalConfig;
