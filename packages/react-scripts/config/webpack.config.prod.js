@@ -56,7 +56,7 @@ const cssFilename = 'static/css/[name].[contenthash:8].css';
 // To have this structure working with relative paths, we have to use custom options.
 const extractTextPluginOptions = shouldUseRelativeAssetPaths
   ? // Making sure that the publicPath goes back to to build folder.
-    { publicPath: Array(cssFilename.split('/').length).join('../') }
+  { publicPath: Array(cssFilename.split('/').length).join('../') }
   : {};
 
 // This is the production configuration.
@@ -388,10 +388,19 @@ const predefinedConfig = {
     child_process: 'empty',
   },
 };
+const configParams = {
+  publicPath,
+  shouldUseRelativeAssetPaths,
+  shouldUseSourceMap,
+  publicUrl,
+  env,
+  cssFilename,
+  extractTextPluginOptions,
+};
 let finalConfig;
 if (fs.existsSync(extendedWebpackConfigPath)) {
   const configExtend = require(extendedWebpackConfigPath);
-  finalConfig = configExtend(predefinedConfig);
+  finalConfig = configExtend(predefinedConfig, configParams);
 } else {
   finalConfig = predefinedConfig;
 }

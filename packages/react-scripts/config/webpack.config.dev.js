@@ -302,10 +302,15 @@ const predefinedConfig = {
     hints: false,
   },
 };
+const configParams = {
+  publicPath,
+  publicUrl,
+  env,
+};
 let finalConfig;
 if (fs.existsSync(extendedWebpackConfigPath)) {
   const configExtend = require(extendedWebpackConfigPath);
-  finalConfig = configExtend(predefinedConfig);
+  finalConfig = configExtend(predefinedConfig, configParams);
 } else {
   finalConfig = predefinedConfig;
 }
