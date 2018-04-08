@@ -1,6 +1,6 @@
 {
   "name": "cra-ts-ext",
-  "version": "2.14.2",
+  "version": "2.14.3",
   "description": "Configuration and scripts for Create React App.",
   "repository": "crysehillmes/create-react-app",
   "license": "BSD-3-Clause",
